@@ -1,10 +1,18 @@
-import { Pressable, PressableProps, View } from 'react-native'
+import { Pressable, PressableProps, View, ViewStyle } from 'react-native'
 import { Text, useThemeColor } from './Themed'
 import Colors from '@/constants/Colors'
 import { Ref, forwardRef } from 'react'
 
-export type ButtonProps = PressableProps & { children: React.ReactNode } & {
-  variant?: 'filled' | 'outlined' | 'tonal' | 'text'
+export type ButtonProps = Omit<
+  PressableProps & { children: React.ReactNode } & {
+    variant?: 'filled' | 'outlined' | 'tonal' | 'text'
+  },
+  'style'
+> & { style?: ViewStyle } & {
+  renderLeft?: () => React.ReactNode
+  renderRight?: () => React.ReactNode
+} & {
+  disabled?: boolean
 }
 
 type keyOfColor = keyof typeof Colors.light & keyof typeof Colors.dark
@@ -30,17 +38,22 @@ const buttonColorConfig: Record<string, buttonColorConfig> = {
     text: 'tonalButtonTextColor',
     background: 'tonalButtonColor',
     border: 'background'
+  },
+  disabled: {
+    text: 'textSecondary',
+    background: 'textInputBackground',
+    border: 'background'
   }
 }
+
 export const Button = forwardRef(function Button(
   props: ButtonProps,
   ref: Ref<View>
 ) {
   const { variant = 'filled', style, ...otherProps } = props
 
-  const isStyleObject = typeof style === 'object'
-
-  const backgroundThemeKey = buttonColorConfig[variant].background
+  const backgroundThemeKey =
+    buttonColorConfig[props.disabled ? 'disabled' : variant].background
   const textThemeKey = buttonColorConfig[variant].text
   const borderThemeKey = buttonColorConfig[variant].border
 
@@ -50,22 +63,34 @@ export const Button = forwardRef(function Button(
 
   return (
     <Pressable
+      disabled={props.disabled}
       ref={ref}
       style={({ pressed }) => ({
         opacity: pressed ? 0.5 : 1,
         padding: 15,
+        paddingVertical: 18,
         borderRadius: 99,
         alignItems: 'center',
         borderWidth: variant === 'outlined' ? 1 : 0,
         borderColor,
         backgroundColor,
-        ...(isStyleObject ? style : {})
+        ...(style ?? {})
       })}
       {...otherProps}
     >
-      <Text style={{ fontWeight: 'bold', color: textColor }}>
-        {props.children}
-      </Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
+        {props.renderLeft?.()}
+        <Text style={{ fontWeight: 'bold', color: textColor }}>
+          {props.children}
+        </Text>
+        {props.renderRight?.()}
+      </View>
     </Pressable>
   )
 })

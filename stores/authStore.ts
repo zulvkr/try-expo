@@ -1,20 +1,10 @@
+import { AuthResponse, LoginRequest, User } from '@/api/types'
+import axios, { Axios, AxiosError } from 'axios'
 import { makeAutoObservable, flow } from 'mobx'
 
-type User = {
-  id: number
-  name: string
-  email: string
-  avatar: string
-}
-
 export class AuthStore {
-  user: User | undefined | null = {
-    id: 1,
-    name: 'John Doe',
-    email: 'john@gmail.com',
-    avatar: 'https://example.com/avatar.png'
-  }
-
+  user: User | undefined | null = undefined
+  loginErrorMessage: string | null = null
   loginRequestStatus: 'idle' | 'pending' | 'done' | 'error' = 'idle'
 
   constructor() {
@@ -35,19 +25,27 @@ export class AuthStore {
     return !!this.user
   }
 
-  *login(): Generator<unknown, void, unknown> {
-    this.loginRequestStatus = 'pending'
+  *login(user: LoginRequest) {
     try {
-      const response = (yield fetch('https://api.example.com/user')) as Awaited<
-        ReturnType<typeof fetch>
+      this.loginErrorMessage = null
+      this.loginRequestStatus = 'pending'
+      const res = (yield axios.post('/login', user)) as Awaited<
+        ReturnType<typeof axios.post<AuthResponse>>
       >
-      const user = (yield response.json()) as User
-      this.setUser(user)
+      this.setUser(res.data.user)
       this.loginRequestStatus = 'done'
     } catch (error) {
       this.loginRequestStatus = 'error'
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          this.loginErrorMessage = 'Invalid email or password'
+        }
+      } else if (error instanceof Error) {
+        this.loginErrorMessage = error.message
+      }
     }
   }
 }
 
+// Singleton
 export const authStore = new AuthStore()

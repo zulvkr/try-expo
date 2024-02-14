@@ -1,6 +1,6 @@
 import { Image, StyleSheet } from 'react-native'
 
-import GetStartedLayout from '@/components/get-started/GetStartedLayout'
+import { GetStartedLayout } from '@/route-specific/get-started'
 import { View } from '@/components/Themed'
 import { Button } from '@/components/Button'
 import { Link } from 'expo-router'

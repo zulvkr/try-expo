@@ -1,8 +1,20 @@
 import { useFonts } from 'expo-font'
-import { Slot } from 'expo-router'
+import { Stack } from 'expo-router'
 import { useEffect } from 'react'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import * as SplashScreen from 'expo-splash-screen'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { StatusBar } from 'expo-status-bar'
+import { ThemeProvider } from '@react-navigation/native'
+import { useColorScheme } from 'react-native'
+import { DarkTheme, LightTheme } from '@/constants/Theme'
+import { makeServer } from '@/mockserver/server'
+
+if (window.server) {
+  server.shutdown()
+}
+
+makeServer()
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -34,8 +46,22 @@ export default function Root() {
     }
   }, [loaded])
 
+  const colorScheme = useColorScheme()
+
   if (!loaded) {
     return null
   }
-  return <Slot />
+
+  return (
+    <SafeAreaProvider>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : LightTheme}>
+        <Stack
+          screenOptions={{
+            headerShown: false
+          }}
+        />
+        <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+      </ThemeProvider>
+    </SafeAreaProvider>
+  )
 }

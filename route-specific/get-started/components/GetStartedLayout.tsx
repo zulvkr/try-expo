@@ -1,7 +1,7 @@
-import { Image, ImageBackground, StyleSheet } from 'react-native'
+import { ImageBackground, StyleSheet } from 'react-native'
 import { Text, View, useThemeColor } from '@/components/Themed'
-import CurvedSeparator from '@/components/get-started/CurvedSeparator'
 import React from 'react'
+import Svg, { Path, SvgProps } from 'react-native-svg'
 
 interface GetStartedLayoutProps {
   image: React.ReactNode
@@ -10,7 +10,7 @@ interface GetStartedLayoutProps {
   action: React.ReactNode
 }
 
-export default function GetStartedLayout({
+export function GetStartedLayout({
   image,
   title,
   description,
@@ -72,3 +72,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 50
   }
 })
+
+function CurvedSeparator({ fill, ...props }: SvgProps) {
+  return (
+    <Svg width='429' height='83' viewBox='0 0 429 83' fill='none' {...props}>
+      <Path
+        d='M0.276367 0.294922C0.276367 0.294922 137.313 44.024 218.612 44.024C299.91 44.024 428.276 0.294922 428.276 0.294922V82.5654H0.276367V0.294922Z'
+        fill={fill || '#fff'}
+      />
+    </Svg>
+  )
+}

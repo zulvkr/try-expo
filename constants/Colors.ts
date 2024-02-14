@@ -13,12 +13,16 @@ const gray500 = '#9E9E9E'
 
 const slate900 = '#22262F'
 const slate500 = '#5E707D'
+const red500 = '#FF453A'
 
 export type ColorScheme = {
   text: string
   textSecondary: string
   placeholderText: string
   textInputBorder: string
+  textInputBackground: string
+  textActiveInputBackground: string
+  textActiveInputBorder: string
   background: string
   tint: string
   tabIconDefault: string
@@ -30,6 +34,7 @@ export type ColorScheme = {
   tonalButtonColor: string
   tonalButtonTextColor: string
   outlineButtonColor: string
+  errorText: string
 }
 
 const light: ColorScheme = {
@@ -37,6 +42,9 @@ const light: ColorScheme = {
   textSecondary: gray500,
   placeholderText: gray500,
   textInputBorder: gray500,
+  textInputBackground: gray100,
+  textActiveInputBackground: tonalColorLight,
+  textActiveInputBorder: tintColorLight,
   background: '#fff',
   tint: tintColorLight,
   tabIconDefault: gray500,
@@ -47,7 +55,8 @@ const light: ColorScheme = {
   filledButtonTextColor: tintColorForegroundLight,
   tonalButtonColor: tonalColorLight,
   tonalButtonTextColor: tonalColorForegroundLight,
-  outlineButtonColor: tintColorLight
+  outlineButtonColor: tintColorLight,
+  errorText: red500
 }
 
 const dark: ColorScheme = {
@@ -55,6 +64,9 @@ const dark: ColorScheme = {
   textSecondary: slate500,
   placeholderText: slate500,
   textInputBorder: slate500,
+  textInputBackground: slate900,
+  textActiveInputBackground: tonalColorDark,
+  textActiveInputBorder: tintColorDark,
   background: '#181A20',
   tint: tintColorDark,
   tabIconDefault: slate500,
@@ -65,7 +77,8 @@ const dark: ColorScheme = {
   filledButtonTextColor: tintColorForegroundDark,
   tonalButtonColor: tonalColorDark,
   tonalButtonTextColor: tonalColorForegroundDark,
-  outlineButtonColor: tintColorDark
+  outlineButtonColor: tintColorDark,
+  errorText: red500
 }
 
 export default {
