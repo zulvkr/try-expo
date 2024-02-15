@@ -4,27 +4,33 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Text
+  Image
 } from 'react-native'
 import { BlurView } from 'expo-blur'
+import { useThemeColor } from './Themed'
 
-interface ModalProps {
+export interface ModalProps {
   visible: boolean
   onClose: () => void
+  children?: React.ReactNode
+  closeOnOverlayClick?: boolean
 }
 
-const Modal = ({ visible, onClose }: ModalProps) => {
+const Modal = ({ visible, onClose, children }: ModalProps) => {
+  const backgroundColor = useThemeColor({}, 'background')
   return (
     <BaseModal visible={visible} transparent>
-      <TouchableOpacity style={styles.overlay} onPress={onClose}>
+      <TouchableOpacity
+        activeOpacity={0.75}
+        style={styles.overlay}
+        onPress={onClose}
+      >
         <BlurView
           style={[StyleSheet.absoluteFill, styles.blur]}
           intensity={100}
           tint='dark'
         />
-        <View style={styles.modal}>
-          <Text>This is the modal content</Text>
-        </View>
+        <View style={[{ backgroundColor }, styles.modal]}>{children}</View>
       </TouchableOpacity>
     </BaseModal>
   )
@@ -38,10 +44,31 @@ const styles = StyleSheet.create({
   },
   blur: {},
   modal: {
-    backgroundColor: 'white',
     width: 250,
     padding: 16,
     borderRadius: 8
+  }
+})
+
+export interface SuccessModalProps extends ModalProps {}
+
+export const SuccessModal = (props: SuccessModalProps) => {
+  return (
+    <Modal {...props}>
+      <Image
+        style={successModalStyles.image}
+        resizeMode='contain'
+        source={require('@/assets/images/success-party.png')}
+      />
+      {props.children}
+    </Modal>
+  )
+}
+
+const successModalStyles = StyleSheet.create({
+  image: {
+    height: 160,
+    width: '100%'
   }
 })
 

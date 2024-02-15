@@ -55,7 +55,9 @@ export const makeServer = () => {
         users: [
           {
             email: 'Admin@mail.com',
-            password: 'admin'
+            password: 'admin',
+            name: 'Admin Name',
+            avatar: 'https://i.pravatar.cc/150?u=adminc'
           }
         ]
       })

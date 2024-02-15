@@ -1,16 +1,18 @@
 import { Button } from '@/components/Button'
 import Checkbox from '@/components/Checkbox'
-import Modal from '@/components/Modal'
+import { SuccessModal } from '@/components/Modal'
 import { TextInput } from '@/components/TextInput'
 import { Text, View, useThemeColor } from '@/components/Themed'
 import Colors from '@/constants/Colors'
 import { authStore } from '@/stores/authStore'
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
-import { Link } from 'expo-router'
+import { Link, useRouter } from 'expo-router'
 import { observer } from 'mobx-react-lite'
 import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Text as BaseText, Image, ScrollView, StyleSheet } from 'react-native'
+import { action } from 'mobx'
+import { StackActions, useNavigation } from '@react-navigation/native'
 
 export default observer(function LoginScreen() {
   const googleBackgroundColor = useThemeColor(
@@ -24,24 +26,26 @@ export default observer(function LoginScreen() {
   const errorColor = useThemeColor({}, 'errorText')
   const [loginSuccessModalVisible, setLoginSuccessModalVisible] =
     useState(false)
+  const router = useRouter()
+  const navigation = useNavigation()
 
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid }
+    formState: { errors, isValid, isSubmitting }
   } = useForm({
     defaultValues: {
-      email: '',
-      password: ''
+      email: 'Admin@mail.com',
+      password: 'admin'
     }
   })
 
-  const onSubmit = (data: any) => {
-    authStore.login({
+  const onSubmit = action(async (data: any) => {
+    await authStore.login({
       email: data.email,
       password: data.password
     })
-  }
+  })
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
@@ -189,6 +193,7 @@ export default observer(function LoginScreen() {
           />
 
           <Button
+            loading={isSubmitting}
             disabled={!isValid}
             onPress={handleSubmit(onSubmit)}
             style={styles.loginButton}
@@ -212,7 +217,19 @@ export default observer(function LoginScreen() {
           </View>
         </View>
       </ScrollView>
-      <Modal visible={loginSuccessModalVisible} onClose={() => {}}></Modal>
+      <SuccessModal visible={loginSuccessModalVisible} onClose={() => {}}>
+        <Text style={styles.successModalTitle}>Login successful!</Text>
+        <Text style={styles.successModalDescription}>
+          Thank you, you have successfully logged in to your Iqlix app
+        </Text>
+        <Button
+          onPress={() => {
+            navigation.dispatch(StackActions.popToTop())
+          }}
+        >
+          Back to Home
+        </Button>
+      </SuccessModal>
     </>
   )
 })
@@ -265,6 +282,15 @@ const styles = StyleSheet.create({
   rootErrorText: {
     textAlign: 'center',
     paddingVertical: 8
+  },
+  successModalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  successModalDescription: {
+    textAlign: 'center',
+    marginVertical: 24
   }
 })
 
