@@ -15,6 +15,9 @@ const slate900 = '#22262F'
 const slate500 = '#5E707D'
 const red500 = '#FF453A'
 
+const gray950 = '#181A20'
+export const gray950rgba = [24, 26, 32, 1]
+
 export type ColorScheme = {
   text: string
   textSecondary: string
@@ -67,7 +70,7 @@ const dark: ColorScheme = {
   textInputBackground: slate900,
   textActiveInputBackground: tonalColorDark,
   textActiveInputBorder: tintColorDark,
-  background: '#181A20',
+  background: gray950,
   tint: tintColorDark,
   tabIconDefault: slate500,
   tabIconSelected: tintColorDark,

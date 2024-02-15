@@ -14,3 +14,8 @@ export const getUpcomings = async () => {
   const res = await axios.get<Movie[]>('/upcomings')
   return res.data
 }
+
+export const getMovie = async (movieId: string) => {
+  const res = await axios.get<Movie>(`/movies/${movieId}`)
+  return res.data
+}

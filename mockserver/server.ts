@@ -63,25 +63,18 @@ export const makeServer = () => {
         }
       )
 
-      this.get(
-        '/recommendations',
-        (schema, request) => {
-          return new Response(200, {}, schema.db.recommendations)
-        },
-        {
-          timing: 200
-        }
-      )
+      this.get('/recommendations', (schema, request) => {
+        return new Response(200, {}, schema.db.recommendations)
+      })
 
-      this.get(
-        '/upcomings',
-        (schema, request) => {
-          return new Response(200, {}, schema.db.upcomings)
-        },
-        {
-          timing: 200
-        }
-      )
+      this.get('/upcomings', (schema, request) => {
+        return new Response(200, {}, schema.db.upcomings)
+      })
+
+      this.get('/movies/:id', (schema, request) => {
+        let id = request.params.id
+        return schema.db.recommendations.find(id)
+      })
 
       this.passthrough()
     },
@@ -189,7 +182,7 @@ export const makeServer = () => {
           {
             title: 'The Revenant',
             image: 'https://picsum.photos/id/101/280/400',
-            synopsis: null,
+            synopsis,
             genres: ['Adventure', 'Drama', 'Thriller'],
             director: 'Alejandro González Iñárritu',
             directorAvatar: 'https://i.pravatar.cc/150?u=alejandro'
@@ -197,7 +190,7 @@ export const makeServer = () => {
           {
             title: 'Forrest Gump',
             image: 'https://picsum.photos/id/102/280/400',
-            synopsis: null,
+            synopsis,
             genres: ['Drama', 'Romance'],
             director: 'Robert Zemeckis',
             directorAvatar: 'https://i.pravatar.cc/150?u=robertzemeckis'
@@ -205,7 +198,7 @@ export const makeServer = () => {
           {
             title: 'Interstellar',
             image: 'https://picsum.photos/id/103/280/400',
-            synopsis: null,
+            synopsis,
             genres: ['Adventure', 'Drama', 'Sci-Fi'],
             director: 'Christopher Nolan',
             directorAvatar: 'https://i.pravatar.cc/150?u=christophernolan'
@@ -213,15 +206,15 @@ export const makeServer = () => {
           {
             title: 'The Silence of the Lambs',
             image: 'https://picsum.photos/id/104/280/400',
-            synopsis: null,
+            synopsis,
             genres: ['Crime', 'Drama', 'Thriller'],
             director: 'Jonathan Demme',
             directorAvatar: 'https://i.pravatar.cc/150?u=jonathandemme'
           },
           {
             title: "Schindler's List",
-            image: 'https://picsum.photos/id/105/280/400',
-            synopsis: null,
+            image: 'https://picsum.photos/id/125/280/400',
+            synopsis,
             genres: ['Biography', 'Drama', 'History'],
             director: 'Steven Spielberg',
             directorAvatar: 'https://i.pravatar.cc/150?u=stevenspielberg'
@@ -229,7 +222,7 @@ export const makeServer = () => {
           {
             title: 'The Green Mile',
             image: 'https://picsum.photos/id/106/280/400',
-            synopsis: null,
+            synopsis,
             genres: ['Crime', 'Drama', 'Fantasy'],
             director: 'Frank Darabont',
             directorAvatar: 'https://i.pravatar.cc/150?u=frankdarabont'
@@ -237,7 +230,7 @@ export const makeServer = () => {
           {
             title: 'City of God',
             image: 'https://picsum.photos/id/107/280/400',
-            synopsis: null,
+            synopsis,
             genres: ['Crime', 'Drama'],
             director: 'Fernando Meirelles',
             directorAvatar: 'https://i.pravatar.cc/150?u=fernandomeirelles'
@@ -245,7 +238,7 @@ export const makeServer = () => {
           {
             title: 'The Departed',
             image: 'https://picsum.photos/id/108/280/400',
-            synopsis: null,
+            synopsis,
             genres: ['Crime', 'Drama', 'Thriller'],
             director: 'Martin Scorsese',
             directorAvatar: 'https://i.pravatar.cc/150?u=martinscorsese'
@@ -253,7 +246,7 @@ export const makeServer = () => {
           {
             title: 'Gladiator',
             image: 'https://picsum.photos/id/109/280/400',
-            synopsis: null,
+            synopsis,
             genres: ['Action', 'Adventure', 'Drama'],
             director: 'Ridley Scott',
             directorAvatar: 'https://i.pravatar.cc/150?u=ridleyscott'

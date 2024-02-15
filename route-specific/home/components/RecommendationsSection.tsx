@@ -2,11 +2,13 @@ import {
   ActivityIndicator,
   FlatList,
   Image,
+  Pressable,
   StyleSheet,
+  TouchableOpacity,
   useWindowDimensions
 } from 'react-native'
 import { Text, View, useThemeColor } from '@/components/Themed'
-import { Link } from 'expo-router'
+import { Link, useRouter } from 'expo-router'
 import { useQuery } from '@tanstack/react-query'
 import { getRecommendations } from '@/api/api'
 import { Button } from '@/components/Button'
@@ -17,6 +19,7 @@ export const RecommendationsSection = () => {
   const cardWidth = (dimensions.width - 40 - cardGap * 2) / 3
   const cardRatio = 7 / 10
   const cardHeight = cardWidth / cardRatio
+  const router = useRouter()
 
   const { data, isLoading } = useQuery({
     queryKey: ['recommendations'],
@@ -24,7 +27,6 @@ export const RecommendationsSection = () => {
   })
 
   const textColor = useThemeColor({}, 'text')
-  const textColorSecondary = useThemeColor({}, 'textSecondary')
   const tintColor = useThemeColor({}, 'tint')
 
   return (
@@ -51,9 +53,16 @@ export const RecommendationsSection = () => {
           data={data}
           contentContainerStyle={styles.horizontalListInnerContainer}
           renderItem={({ item }) => (
-            <View
+            <TouchableOpacity
+              activeOpacity={0.7}
               style={{
                 width: cardWidth
+              }}
+              onPress={() => {
+                router.navigate({
+                  pathname: '/(app)/movies/[movieId]',
+                  params: { movieId: item.id }
+                })
               }}
             >
               <Image
@@ -69,11 +78,9 @@ export const RecommendationsSection = () => {
                   {item.title}
                 </Text>
                 <Text
+                  secondary
                   numberOfLines={1}
-                  style={[
-                    { color: textColorSecondary },
-                    styles.cardInfoDescription
-                  ]}
+                  style={[styles.cardInfoDescription]}
                 >
                   {item.genres.slice(0, 2).join(', ')}
                 </Text>
@@ -88,7 +95,7 @@ export const RecommendationsSection = () => {
               >
                 <Button variant='outlined'>Book</Button>
               </Link>
-            </View>
+            </TouchableOpacity>
           )}
         />
       )}

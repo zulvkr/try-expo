@@ -70,7 +70,7 @@ export const Button = forwardRef(function Button(
 
   return (
     <Pressable
-      disabled={props.disabled}
+      disabled={props.loading || props.disabled}
       ref={ref}
       style={({ pressed }) => ({
         opacity: pressed ? 0.5 : 1,

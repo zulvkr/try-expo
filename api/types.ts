@@ -33,3 +33,23 @@ export interface Cast {
   avatar: string
   role: string
 }
+
+export interface Cinema {
+  name: string
+  rating: number // 1-5 with 1 decimal
+  city: string
+  favorite: boolean
+  reviewCount: number
+  image: string
+  distance: string
+}
+
+export interface Ticket {
+  id: number
+  movie: Movie
+  cinema: Cinema
+  date: string
+  time: string
+  price: number
+  booked: boolean
+}

@@ -326,7 +326,9 @@ function OrSeparator() {
       <View
         style={[orSeparatorStyles.separator, { backgroundColor: borderColor }]}
       />
-      <Text style={[orSeparatorStyles.orText, { color: textColor }]}>or</Text>
+      <Text secondary style={[orSeparatorStyles.orText]}>
+        or
+      </Text>
       <View
         style={[orSeparatorStyles.separator, { backgroundColor: borderColor }]}
       />

@@ -18,7 +18,6 @@ export function GetStartedLayout({
 }: GetStartedLayoutProps) {
   const backgroundColor = useThemeColor({}, 'background')
   const titleTextColor = useThemeColor({}, 'text')
-  const descriptionTextColor = useThemeColor({}, 'textSecondary')
 
   return (
     <View style={styles.container}>
@@ -34,7 +33,7 @@ export function GetStartedLayout({
       </View>
       <View style={styles.textContainer}>
         <Text style={[{ color: titleTextColor }, styles.title]}>{title}</Text>
-        <Text style={[{ color: descriptionTextColor }, styles.description]}>
+        <Text secondary style={[styles.description]}>
           {description}
         </Text>
       </View>

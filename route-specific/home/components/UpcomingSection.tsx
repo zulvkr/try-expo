@@ -4,6 +4,7 @@ import {
   Image,
   Pressable,
   StyleSheet,
+  TouchableOpacity,
   useWindowDimensions
 } from 'react-native'
 import { Text, View, useThemeColor } from '@/components/Themed'
@@ -55,7 +56,8 @@ export const UpcomingSection = () => {
           data={data}
           contentContainerStyle={styles.horizontalListInnerContainer}
           renderItem={({ item }) => (
-            <View
+            <TouchableOpacity
+              activeOpacity={0.7}
               style={{
                 width: cardWidth
               }}
@@ -75,16 +77,14 @@ export const UpcomingSection = () => {
                   {item.title}
                 </Text>
                 <Text
+                  secondary
                   numberOfLines={1}
-                  style={[
-                    { color: textColorSecondary },
-                    styles.cardInfoDescription
-                  ]}
+                  style={[styles.cardInfoDescription]}
                 >
                   {item.genres.slice(0, 2).join(', ')}
                 </Text>
               </View>
-            </View>
+            </TouchableOpacity>
           )}
         />
       )}
