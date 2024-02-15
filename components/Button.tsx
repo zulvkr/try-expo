@@ -1,4 +1,10 @@
-import { Pressable, PressableProps, View, ViewStyle } from 'react-native'
+import {
+  ActivityIndicator,
+  Pressable,
+  PressableProps,
+  View,
+  ViewStyle
+} from 'react-native'
 import { Text, useThemeColor } from './Themed'
 import Colors from '@/constants/Colors'
 import { Ref, forwardRef } from 'react'
@@ -13,6 +19,7 @@ export type ButtonProps = Omit<
   renderRight?: () => React.ReactNode
 } & {
   disabled?: boolean
+  loading?: boolean
 }
 
 type keyOfColor = keyof typeof Colors.light & keyof typeof Colors.dark
@@ -82,13 +89,18 @@ export const Button = forwardRef(function Button(
         style={{
           flexDirection: 'row',
           justifyContent: 'center',
+          minHeight: 22,
           alignItems: 'center'
         }}
       >
         {props.renderLeft?.()}
-        <Text style={{ fontWeight: 'bold', color: textColor }}>
-          {props.children}
-        </Text>
+        {props.loading ? (
+          <ActivityIndicator size={22} color={textColor} />
+        ) : (
+          <Text style={{ fontWeight: 'bold', color: textColor }}>
+            {props.children}
+          </Text>
+        )}
         {props.renderRight?.()}
       </View>
     </Pressable>
