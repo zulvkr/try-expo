@@ -9,6 +9,7 @@ import { ThemeProvider } from '@react-navigation/native'
 import { useColorScheme } from 'react-native'
 import { DarkTheme, LightTheme } from '@/constants/Theme'
 import { makeServer } from '@/mockserver/server'
+import QueryClientProvider from '@/providers/reactquery'
 
 if (window.server) {
   server.shutdown()
@@ -55,12 +56,14 @@ export default function Root() {
   return (
     <SafeAreaProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : LightTheme}>
-        <Stack
-          screenOptions={{
-            headerShown: false
-          }}
-        />
-        <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+        <QueryClientProvider>
+          <Stack
+            screenOptions={{
+              headerShown: false
+            }}
+          />
+          <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+        </QueryClientProvider>
       </ThemeProvider>
     </SafeAreaProvider>
   )

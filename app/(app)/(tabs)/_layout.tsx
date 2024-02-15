@@ -6,6 +6,7 @@ import { Pressable } from 'react-native'
 import Colors from '@/constants/Colors'
 import { useColorScheme } from '@/components/useColorScheme'
 import { useClientOnlyValue } from '@/components/useClientOnlyValue'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -17,6 +18,7 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
   const colorScheme = useColorScheme()
+  const insets = useSafeAreaInsets()
 
   return (
     <Tabs
@@ -24,7 +26,14 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true)
+        // headerShown: useClientOnlyValue(false, true)
+        headerShown: false,
+        tabBarStyle: {
+          paddingBottom: insets.bottom
+        }
+      }}
+      sceneContainerStyle={{
+        paddingTop: insets.top
       }}
     >
       <Tabs.Screen

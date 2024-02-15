@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
   },
   container: {
     gap: 20,
-    paddingHorizontal: 16
+    paddingHorizontal: 20
   },
   socialLoginContainer: {
     gap: 16,

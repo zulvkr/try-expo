@@ -10,11 +10,11 @@ import Colors from '@/constants/Colors'
 import { Ref, forwardRef } from 'react'
 
 export type ButtonProps = Omit<
-  PressableProps & { children: React.ReactNode } & {
-    variant?: 'filled' | 'outlined' | 'tonal' | 'text'
-  },
+  PressableProps & { children: React.ReactNode },
   'style'
-> & { style?: ViewStyle } & {
+> & {
+  variant?: 'filled' | 'outlined' | 'tonal' | 'text'
+} & { style?: ViewStyle } & {
   renderLeft?: () => React.ReactNode
   renderRight?: () => React.ReactNode
 } & {
@@ -103,6 +103,44 @@ export const Button = forwardRef(function Button(
         )}
         {props.renderRight?.()}
       </View>
+    </Pressable>
+  )
+})
+
+export type IconButtonProps = Omit<
+  PressableProps & { children: React.ReactNode },
+  'style'
+> & { style?: ViewStyle }
+
+export const IconButton = forwardRef(function IconButton(
+  props: ButtonProps,
+  ref: Ref<View>
+) {
+  const { style, ...otherProps } = props
+
+  return (
+    <Pressable
+      ref={ref}
+      style={({ pressed }) => ({
+        opacity: pressed ? 0.5 : 1,
+        height: 32,
+        width: 32,
+        borderRadius: 16,
+        alignItems: 'center',
+        justifyContent: 'center',
+        ...(style ?? {})
+      })}
+      {...otherProps}
+    >
+      <Text
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
+        {props.children}
+      </Text>
     </Pressable>
   )
 })

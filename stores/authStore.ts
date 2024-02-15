@@ -1,3 +1,4 @@
+import { postLogin } from '@/api/api'
 import { AuthResponse, LoginRequest, User } from '@/api/types'
 import axios, { Axios, AxiosError } from 'axios'
 import { makeAutoObservable, flow } from 'mobx'
@@ -29,7 +30,7 @@ export class AuthStore {
     try {
       this.loginErrorMessage = null
       this.loginRequestStatus = 'pending'
-      const res = (yield axios.post('/login', user)) as Awaited<
+      const res = (yield postLogin(user.email, user.password)) as Awaited<
         ReturnType<typeof axios.post<AuthResponse>>
       >
       this.setUser(res.data.user)

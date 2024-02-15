@@ -19,7 +19,7 @@ export interface ModalProps {
 const Modal = ({ visible, onClose, children }: ModalProps) => {
   const backgroundColor = useThemeColor({}, 'background')
   return (
-    <BaseModal visible={visible} transparent>
+    <BaseModal visible={visible} transparent animationType='fade'>
       <TouchableOpacity
         activeOpacity={0.75}
         style={styles.overlay}
