@@ -44,9 +44,9 @@ const styles = StyleSheet.create({
   },
   blur: {},
   modal: {
-    width: 250,
-    padding: 16,
-    borderRadius: 8
+    width: 300,
+    padding: 28,
+    borderRadius: 16
   }
 })
 

@@ -33,7 +33,7 @@ export default function TabLayout() {
         tabBarStyle: {
           paddingBottom: insets.bottom + 12,
           paddingTop: 12,
-          height: 64
+          height: 64 + insets.bottom
         }
       }}
       sceneContainerStyle={{

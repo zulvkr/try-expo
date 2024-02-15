@@ -10,7 +10,13 @@ import { Link, useRouter } from 'expo-router'
 import { observer } from 'mobx-react-lite'
 import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { Text as BaseText, Image, ScrollView, StyleSheet } from 'react-native'
+import {
+  Text as BaseText,
+  Image,
+  Platform,
+  ScrollView,
+  StyleSheet
+} from 'react-native'
 import { action } from 'mobx'
 import { StackActions, useNavigation } from '@react-navigation/native'
 
@@ -224,7 +230,12 @@ export default observer(function LoginScreen() {
         </Text>
         <Button
           onPress={() => {
-            navigation.dispatch(StackActions.popToTop())
+            setLoginSuccessModalVisible(false)
+            Platform.OS == 'ios'
+              ? setTimeout(() => {
+                  router.back()
+                }, 1000)
+              : router.back()
           }}
         >
           Back to Home
@@ -236,7 +247,7 @@ export default observer(function LoginScreen() {
 
 const styles = StyleSheet.create({
   scrollviewContainer: {
-    paddingBottom: 32
+    paddingBottom: 40
   },
   container: {
     gap: 20,
@@ -253,8 +264,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#64B4FF'
   },
   socialButton: {
+    paddingVertical: 14,
+    // android Shadow
     elevation: 3,
-    paddingVertical: 14
+    // ios Shadow
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62
   },
   socialButtonIcon: {
     width: 28,

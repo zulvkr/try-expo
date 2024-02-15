@@ -62,7 +62,7 @@ export default observer(function TabOneScreen() {
 const stylesRoot = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
-    paddingBottom: 20
+    paddingBottom: 40
   }
 })
 
