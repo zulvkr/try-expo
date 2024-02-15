@@ -60,7 +60,6 @@ export const UpcomingSection = () => {
                 width: cardWidth
               }}
             >
-              {/* a book mark button absolutely positioned on top of image in the top right corner */}
               <BookmarkButton />
 
               <Image
@@ -152,11 +151,11 @@ const styles = StyleSheet.create({
   },
   cardInfo: {
     marginTop: 10,
-    gap: 10
+    gap: 10,
+    height: 64
   },
-  cardInfoTitle: {
-    height: 36
-  },
+  cardInfoTitle: {},
+
   cardInfoDescription: {
     fontSize: 12
   }

@@ -77,10 +77,17 @@ export const RecommendationsSection = () => {
                 >
                   {item.genres.slice(0, 2).join(', ')}
                 </Text>
-                <Link href='/' asChild>
-                  <Button variant='outlined'>Book</Button>
-                </Link>
               </View>
+              <Link
+                style={styles.cardInfoButton}
+                href={{
+                  pathname: '/(app)/movies/[movieId]',
+                  params: { movieId: item.id }
+                }}
+                asChild
+              >
+                <Button variant='outlined'>Book</Button>
+              </Link>
             </View>
           )}
         />
@@ -115,10 +122,12 @@ const styles = StyleSheet.create({
   },
   cardInfo: {
     marginTop: 10,
-    gap: 10
+    gap: 10,
+    height: 64
   },
-  cardInfoTitle: {
-    height: 36
+  cardInfoTitle: {},
+  cardInfoButton: {
+    marginTop: 10
   },
   cardInfoDescription: {
     fontSize: 12
