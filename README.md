@@ -53,7 +53,7 @@ npx expo start
 
 This will start the development server and open the Expo DevTools in your default web browser. From there, you can launch the app on an emulator/simulator or scan the QR code using the Expo Go app on your mobile device to run it on a physical device.
 
-You might need to install Expo Go on real device
+You might need to install [Expo Go](https://docs.expo.dev/get-started/expo-go/) on real device
 
 ## Stacks Used
 
