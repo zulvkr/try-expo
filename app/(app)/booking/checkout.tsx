@@ -1,20 +1,25 @@
+import BottomCard from '@/components/BottomCard'
 import { Button } from '@/components/Button'
-import { Text, View } from '@/components/Themed'
+import ComingSoon from '@/components/ComingSoon'
+import { View } from '@/components/Themed'
 import { useRouter } from 'expo-router'
 
 export default function Checkout() {
   const router = useRouter()
 
   return (
-    <View>
-      <Text>Checkout</Text>
-      <Button
-        onPress={() => {
-          // router.push('/booking/seat')
-        }}
-      >
-        Next
-      </Button>
+    <View style={{ flex: 1 }}>
+      <ComingSoon />
+
+      <BottomCard>
+        <Button
+          onPress={() => {
+            router.navigate('/')
+          }}
+        >
+          Next
+        </Button>
+      </BottomCard>
     </View>
   )
 }
