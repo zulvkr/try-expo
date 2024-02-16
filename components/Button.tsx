@@ -95,7 +95,7 @@ export const Button = forwardRef(function Button(
       >
         {props.renderLeft?.()}
         {props.loading ? (
-          <ActivityIndicator size={22} color={textColor} />
+          <ActivityIndicator color={textColor} />
         ) : (
           <Text style={{ fontWeight: 'bold', color: textColor }}>
             {props.children}

@@ -18,8 +18,7 @@ export type ThemeProps = {
   darkColor?: string
 }
 
-export type TextProps = ThemeProps &
-  DefaultText['props'] & { secondary?: boolean }
+export type TextProps = ThemeProps & DefaultText['props']
 export type ViewProps = ThemeProps & DefaultView['props']
 export type TextInputProps = ThemeProps & DefaultTextInput['props']
 
@@ -38,11 +37,8 @@ export function useThemeColor(
 }
 
 export const Text = forwardRef((props: TextProps, ref: Ref<any>) => {
-  const { style, lightColor, darkColor, secondary, ...otherProps } = props
-  const color = useThemeColor(
-    { light: lightColor, dark: darkColor },
-    secondary ? 'textSecondary' : 'text'
-  )
+  const { style, lightColor, darkColor, ...otherProps } = props
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text')
 
   return <DefaultText style={[{ color }, style]} {...otherProps} ref={ref} />
 })

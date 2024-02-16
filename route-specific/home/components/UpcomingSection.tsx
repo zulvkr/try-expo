@@ -11,10 +11,11 @@ import { Text, View, useThemeColor } from '@/components/Themed'
 import { Link } from 'expo-router'
 import { useQuery } from '@tanstack/react-query'
 import { getUpcomings } from '@/api/api'
-import { Button } from '@/components/Button'
 import { MaterialIcons } from '@expo/vector-icons'
 import Colors from '@/constants/Colors'
 import { useState } from 'react'
+import CommonStyles from '@/components/CommonStyles'
+import { SecondaryText } from '@/components/StyledText'
 
 export const UpcomingSection = () => {
   const dimensions = useWindowDimensions()
@@ -29,13 +30,12 @@ export const UpcomingSection = () => {
   })
 
   const textColor = useThemeColor({}, 'text')
-  const textColorSecondary = useThemeColor({}, 'textSecondary')
   const tintColor = useThemeColor({}, 'tint')
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Upcoming</Text>
+      <View style={CommonStyles.sectionHeader}>
+        <Text style={CommonStyles.sectionHeaderTitle}>Upcoming</Text>
         <Link href='/' style={[{ color: tintColor }]}>
           View all
         </Link>
@@ -43,7 +43,7 @@ export const UpcomingSection = () => {
       {isLoading ? (
         <ActivityIndicator
           color={textColor}
-          size={32}
+          size='large'
           style={{
             height: cardHeight
           }}
@@ -76,13 +76,12 @@ export const UpcomingSection = () => {
                 <Text numberOfLines={2} style={styles.cardInfoTitle}>
                   {item.title}
                 </Text>
-                <Text
-                  secondary
+                <SecondaryText
                   numberOfLines={1}
                   style={[styles.cardInfoDescription]}
                 >
                   {item.genres.slice(0, 2).join(', ')}
-                </Text>
+                </SecondaryText>
               </View>
             </TouchableOpacity>
           )}
@@ -128,16 +127,6 @@ const BookmarkButton = () => {
 const styles = StyleSheet.create({
   container: {
     marginTop: 32
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20
-  },
-  headerTitle: {
-    fontSize: 16,
-    fontWeight: 'bold'
   },
   horizontalList: {
     marginHorizontal: -20

@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getMovie } from '@/api/api'
 import {
   ActivityIndicator,
+  FlatList,
   Image,
   ImageBackground,
   ScrollView,
@@ -13,10 +14,13 @@ import {
 import { LinearGradient } from 'expo-linear-gradient'
 import { StatusBar } from 'expo-status-bar'
 import { gray950rgba } from '@/constants/Colors'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { formatDuration } from '@/utils/formatter'
 import { MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons'
 import { Button } from '@/components/Button'
+import CommonStyles from '@/components/CommonStyles'
+import { Cast } from '@/api/types'
+import { SecondaryText } from '@/components/StyledText'
 
 export default function MovieDetail() {
   const { movieId } = useLocalSearchParams()
@@ -42,15 +46,18 @@ export default function MovieDetail() {
       : ['transparent', 'rgba(255,255,255,0)', 'rgba(255,255,255,1)']
   }, [colorScheme])
 
+  const [showRestSynopsis, setShowRestSynopsis] = useState(false)
+  const tint = useThemeColor({}, 'tint')
+
   return (
     <>
       <StatusBar style='light' />
-      <ScrollView>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
         {isLoading ? (
-          <ActivityIndicator />
+          <ActivityIndicator style={{ height: 400 }} size='large' />
         ) : (
           <>
-            <View>
+            <View style={styles.background}>
               <ImageBackground
                 source={{ uri: data?.image }}
                 resizeMode='cover'
@@ -62,53 +69,50 @@ export default function MovieDetail() {
                 locations={[0, 0.5, 0.9]}
               />
             </View>
-            <View style={styles.movieHeaderCard}>
+            <View style={styles.headerCardSection}>
               <Text style={styles.movieTitle}>{data?.title}</Text>
-              <View style={styles.movieHeaderCardRow2}>
+              <View style={styles.headerCardRow2}>
                 {Number.isInteger(data?.duration) && (
-                  <View style={styles.movieInfoSecondaryStyle}>
+                  <View style={styles.headerCardInfoContainer}>
                     <MaterialCommunityIcons
                       name='account-outline'
                       size={20}
                       color={textSecondaryColor}
                     />
-                    <Text secondary style={styles.secondaryStyleText}>
+                    <SecondaryText style={styles.secondaryStyleText}>
                       Duration: {formatDuration(data?.duration as number)}
-                    </Text>
+                    </SecondaryText>
                   </View>
                 )}
-                <View style={styles.movieInfoSecondaryStyle}>
+                <View style={styles.headerCardInfoContainer}>
                   <MaterialCommunityIcons
                     name='clock-outline'
                     size={20}
                     color={textSecondaryColor}
                   />
-                  <Text secondary style={styles.secondaryStyleText}>
+                  <SecondaryText style={styles.secondaryStyleText}>
                     Director: {data?.director}
-                  </Text>
+                  </SecondaryText>
                 </View>
               </View>
               <View
-                style={[
-                  styles.movieHeaderCardRow3,
-                  styles.movieInfoSecondaryStyle
-                ]}
+                style={[styles.headerCardRow3, styles.headerCardInfoContainer]}
               >
                 <FontAwesome name='film' size={18} color={textSecondaryColor} />
-                <Text secondary style={styles.secondaryStyleText}>
+                <SecondaryText style={styles.secondaryStyleText}>
                   Genre: {data?.genres.join(', ')}
-                </Text>
+                </SecondaryText>
               </View>
-              <View style={styles.movieHeaderCardRow4}>
-                <View style={styles.movieHeaderDirectorAvatarLayout}>
+              <View style={styles.headerCardRow4}>
+                <View style={styles.directorAvatarLayout}>
                   <Image
                     source={{ uri: data?.directorAvatar }}
-                    style={styles.movieHeaderAvatar}
+                    style={styles.directorAvatar}
                   />
                   <View style={{ flex: 1 }}>
-                    <Text secondary style={styles.secondaryStyleText}>
+                    <SecondaryText style={styles.secondaryStyleText}>
                       Director
-                    </Text>
+                    </SecondaryText>
                     <Text style={{ fontWeight: 'bold' }}>{data?.director}</Text>
                   </View>
                 </View>
@@ -130,9 +134,75 @@ export default function MovieDetail() {
                 </View>
               </View>
             </View>
+            <View style={styles.synopsisSection}>
+              <View style={CommonStyles.sectionHeader}>
+                <Text style={CommonStyles.sectionHeaderTitle}>Synopsis</Text>
+              </View>
+              <Text
+                numberOfLines={showRestSynopsis ? undefined : 4}
+                style={styles.synopsisText}
+              >
+                {data?.synopsis}
+              </Text>
+              <View style={styles.showMoreSynopsisContainer}>
+                <Text
+                  style={{
+                    color: tint,
+                    fontWeight: 'bold'
+                  }}
+                  onPress={() => setShowRestSynopsis(!showRestSynopsis)}
+                >
+                  {showRestSynopsis ? 'Less' : 'More'}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.castsSection}>
+              <View style={CommonStyles.sectionHeader}>
+                <Text style={CommonStyles.sectionHeaderTitle}>Casts</Text>
+                <Text style={{ color: tint }}>View All</Text>
+              </View>
+              <FlatList
+                horizontal
+                data={data?.casts || mockCasts}
+                contentContainerStyle={styles.castListContainer}
+                renderItem={({ item }) => (
+                  <View
+                    style={{
+                      width: 64
+                    }}
+                  >
+                    <Image
+                      source={{ uri: item.avatar }}
+                      style={styles.castAvatar}
+                    />
+                    <Text numberOfLines={2} style={styles.castName}>
+                      {item.name}
+                    </Text>
+                    <SecondaryText numberOfLines={1} style={styles.castRole}>
+                      {item.role}
+                    </SecondaryText>
+                  </View>
+                )}
+                keyExtractor={item => item.id.toString()}
+              />
+            </View>
           </>
         )}
       </ScrollView>
+      {isLoading ? null : (
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            elevation: 4,
+            padding: 20
+          }}
+        >
+          <Button onPress={() => {}}>Book Now</Button>
+        </View>
+      )}
     </>
   )
 }
@@ -146,11 +216,17 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 300
   },
-  movieHeaderCard: {
+  background: {
+    marginHorizontal: -20
+  },
+  contentContainer: {
+    padding: 20,
+    paddingBottom: 110
+  },
+  headerCardSection: {
     marginTop: -180,
     padding: 20,
     borderRadius: 12,
-    marginHorizontal: 20,
     elevation: 4,
     // ios shadow
     shadowColor: '#000',
@@ -158,31 +234,31 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62
   },
-  movieHeaderCardRow2: {
+  headerCardRow2: {
     flexDirection: 'row',
     marginTop: 20,
     gap: 20
   },
-  movieHeaderCardRow3: {
+  headerCardRow3: {
     marginTop: 20
   },
-  movieHeaderCardRow4: {
+  headerCardRow4: {
     flexDirection: 'row',
     marginTop: 20,
     gap: 20
   },
-  movieHeaderDirectorAvatarLayout: {
+  directorAvatarLayout: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
     flex: 1
   },
-  movieHeaderAvatar: {
+  directorAvatar: {
     width: 50,
     height: 50,
     borderRadius: 25
   },
-  movieInfoSecondaryStyle: {
+  headerCardInfoContainer: {
     flex: 1,
     flexDirection: 'row',
     gap: 10
@@ -203,5 +279,103 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     lineHeight: 32
+  },
+  synopsisSection: {
+    marginTop: 10,
+    paddingVertical: 20
+  },
+  synopsisText: {
+    lineHeight: 22
+  },
+  showMoreSynopsisContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
+  },
+  castsSection: {
+    marginTop: 20
+  },
+  castListContainer: {
+    gap: 20
+  },
+  castItem: {
+    width: 64
+  },
+  castAvatar: {
+    width: 64,
+    height: 64,
+    borderRadius: 32
+  },
+  castName: {
+    textAlign: 'center',
+    marginTop: 8,
+    fontSize: 12
+  },
+  castRole: {
+    textAlign: 'center',
+    fontSize: 10,
+    marginTop: 8
   }
 })
+
+const mockCasts: Cast[] = [
+  {
+    id: 1,
+    name: 'Emile Hirsch',
+    avatar: 'https://i.pravatar.cc/150?u=emileh',
+    role: 'Christopher McCandless'
+  },
+  {
+    id: 2,
+    name: 'Kristen Stewart',
+    avatar: 'https://i.pravatar.cc/150?u=kstewart',
+    role: 'Tracy Tatro'
+  },
+  {
+    id: 3,
+    name: 'Vince Vaughn',
+    avatar: 'https://i.pravatar.cc/150?u=vincev',
+    role: 'Wayne Westerberg'
+  },
+  {
+    id: 4,
+    name: 'Catherine Keener',
+    avatar: 'https://i.pravatar.cc/150?u=ckeener',
+    role: 'Jan Burres'
+  },
+  {
+    id: 5,
+    name: 'Hal Holbrook',
+    avatar: 'https://i.pravatar.cc/150?u=hh',
+    role: 'Ron Franz'
+  },
+  {
+    id: 6,
+    name: 'Jena Malone',
+    avatar: 'https://i.pravatar.cc/150?u=jmalone',
+    role: 'Carine McCandless'
+  },
+  {
+    id: 7,
+    name: 'Brian Dierker',
+    avatar: 'https://i.pravatar.cc/150?u=bdierker',
+    role: 'Rainey'
+  },
+  {
+    id: 8,
+    name: 'Zach Galifianakis',
+    avatar: 'https://i.pravatar.cc/150?u=zgalifianakis',
+    role: 'Kevin'
+  },
+  {
+    id: 9,
+    name: 'Marcia Gay Harden',
+    avatar: 'https://i.pravatar.cc/150?u=mgayharden',
+    role: 'Billie McCandless'
+  },
+  {
+    id: 10,
+    name: 'William Hurt',
+    avatar: 'https://i.pravatar.cc/150?u=whurt',
+    role: 'Walt McCandless'
+  }
+]

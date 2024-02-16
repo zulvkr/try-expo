@@ -12,6 +12,8 @@ import { Link, useRouter } from 'expo-router'
 import { useQuery } from '@tanstack/react-query'
 import { getRecommendations } from '@/api/api'
 import { Button } from '@/components/Button'
+import { SecondaryText } from '@/components/StyledText'
+import CommonStyles from '@/components/CommonStyles'
 
 export const RecommendationsSection = () => {
   const dimensions = useWindowDimensions()
@@ -31,8 +33,8 @@ export const RecommendationsSection = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Recommendation</Text>
+      <View style={CommonStyles.sectionHeader}>
+        <Text style={CommonStyles.sectionHeaderTitle}>Recommendation</Text>
         <Link href='/' style={[{ color: tintColor }]}>
           View all
         </Link>
@@ -40,7 +42,7 @@ export const RecommendationsSection = () => {
       {isLoading ? (
         <ActivityIndicator
           color={textColor}
-          size={32}
+          size='large'
           style={{
             height: cardHeight
           }}
@@ -77,13 +79,12 @@ export const RecommendationsSection = () => {
                 <Text numberOfLines={2} style={styles.cardInfoTitle}>
                   {item.title}
                 </Text>
-                <Text
-                  secondary
+                <SecondaryText
                   numberOfLines={1}
                   style={[styles.cardInfoDescription]}
                 >
                   {item.genres.slice(0, 2).join(', ')}
-                </Text>
+                </SecondaryText>
               </View>
               <Link
                 style={styles.cardInfoButton}
@@ -106,16 +107,6 @@ export const RecommendationsSection = () => {
 const styles = StyleSheet.create({
   container: {
     marginTop: 32
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20
-  },
-  headerTitle: {
-    fontSize: 16,
-    fontWeight: 'bold'
   },
   horizontalList: {
     marginHorizontal: -20
