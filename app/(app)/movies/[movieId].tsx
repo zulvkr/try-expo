@@ -21,6 +21,7 @@ import { Button } from '@/components/Button'
 import CommonStyles from '@/components/CommonStyles'
 import { Cast } from '@/api/types'
 import { SecondaryText } from '@/components/StyledText'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export default function MovieDetail() {
   const { movieId } = useLocalSearchParams()
@@ -48,13 +49,23 @@ export default function MovieDetail() {
 
   const [showRestSynopsis, setShowRestSynopsis] = useState(false)
   const tint = useThemeColor({}, 'tint')
+  const insets = useSafeAreaInsets()
 
   return (
     <>
-      <StatusBar style='light' />
-      <ScrollView contentContainerStyle={styles.contentContainer}>
+      <StatusBar style='light' backgroundColor='transparent' translucent />
+      <ScrollView
+        contentContainerStyle={styles.contentContainer}
+        style={{
+          marginTop: -insets.top
+        }}
+      >
         {isLoading ? (
-          <ActivityIndicator style={{ height: 400 }} size='large' />
+          <ActivityIndicator
+            style={{ height: 400 }}
+            size='large'
+            color={textColor}
+          />
         ) : (
           <>
             <View style={styles.background}>
@@ -124,7 +135,7 @@ export default function MovieDetail() {
                       <MaterialCommunityIcons
                         name='play'
                         size={20}
-                        color={textColor}
+                        color='white'
                         style={{ marginRight: 4 }}
                       />
                     )}
@@ -162,6 +173,7 @@ export default function MovieDetail() {
                 <Text style={{ color: tint }}>View All</Text>
               </View>
               <FlatList
+                showsHorizontalScrollIndicator={false}
                 horizontal
                 data={data?.casts || mockCasts}
                 contentContainerStyle={styles.castListContainer}
@@ -191,14 +203,12 @@ export default function MovieDetail() {
       </ScrollView>
       {isLoading ? null : (
         <View
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            elevation: 4,
-            padding: 20
-          }}
+          style={[
+            styles.bookButtonContainer,
+            {
+              paddingBottom: insets.bottom + 20
+            }
+          ]}
         >
           <Button onPress={() => {}}>Book Now</Button>
         </View>
@@ -221,7 +231,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     padding: 20,
-    paddingBottom: 110
+    paddingBottom: 150
   },
   headerCardSection: {
     marginTop: -180,
@@ -314,6 +324,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 10,
     marginTop: 8
+  },
+  bookButtonContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: 20,
+    elevation: 5,
+    // ios shadow
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62
   }
 })
 
