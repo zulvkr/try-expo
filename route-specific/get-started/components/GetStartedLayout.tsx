@@ -2,6 +2,7 @@ import { ImageBackground, StyleSheet } from 'react-native'
 import { Text, View, useThemeColor } from '@/components/Themed'
 import React from 'react'
 import Svg, { Path, SvgProps } from 'react-native-svg'
+import { SecondaryText } from '@/components/StyledText'
 
 interface GetStartedLayoutProps {
   image: React.ReactNode
@@ -33,9 +34,9 @@ export function GetStartedLayout({
       </View>
       <View style={styles.textContainer}>
         <Text style={[{ color: titleTextColor }, styles.title]}>{title}</Text>
-        <Text secondary style={[styles.description]}>
+        <SecondaryText style={[styles.description]}>
           {description}
-        </Text>
+        </SecondaryText>
       </View>
       {action}
     </View>

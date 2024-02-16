@@ -18,7 +18,7 @@ import {
   StyleSheet
 } from 'react-native'
 import { action } from 'mobx'
-import { StackActions, useNavigation } from '@react-navigation/native'
+import { SecondaryText } from '@/components/StyledText'
 
 export default observer(function LoginScreen() {
   const googleBackgroundColor = useThemeColor(
@@ -33,7 +33,6 @@ export default observer(function LoginScreen() {
   const [loginSuccessModalVisible, setLoginSuccessModalVisible] =
     useState(false)
   const router = useRouter()
-  const navigation = useNavigation()
 
   const {
     control,
@@ -326,9 +325,7 @@ function OrSeparator() {
       <View
         style={[orSeparatorStyles.separator, { backgroundColor: borderColor }]}
       />
-      <Text secondary style={[orSeparatorStyles.orText]}>
-        or
-      </Text>
+      <SecondaryText style={[orSeparatorStyles.orText]}>or</SecondaryText>
       <View
         style={[orSeparatorStyles.separator, { backgroundColor: borderColor }]}
       />
