@@ -1,5 +1,5 @@
 import { Text, View, useThemeColor } from '@/components/Themed'
-import { useLocalSearchParams } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import { useQuery } from '@tanstack/react-query'
 import { getMovie } from '@/api/api'
 import {
@@ -210,7 +210,17 @@ export default function MovieDetail() {
             }
           ]}
         >
-          <Button onPress={() => {}}>Book Now</Button>
+          <Button
+            onPress={() => {
+              router.navigate({
+                pathname: '/(app)/booking/[movieId]',
+                params: { movieId: movieId }
+              })
+              // router.push('/(app)/booking/seat')
+            }}
+          >
+            Book Now
+          </Button>
         </View>
       )}
     </>

@@ -1,5 +1,5 @@
-import { Cast, Movie, User } from '@/api/types'
-import { Model, Response, belongsTo, createServer, hasMany } from 'miragejs'
+import { Booking, Cast, Movie, User } from '@/api/types'
+import { Model, Response, createServer, hasMany } from 'miragejs'
 import { ModelDefinition } from 'miragejs/-types'
 
 const synopsis = `After graduating from Emory University, top student and athlete Christopher McCandless abandons his possessions, gives his entire $24,000 savings account to charity and hitchhikes to Alaska to live in the wilderness. Along the way, Christopher encounters a series of characters that shape his life.`
@@ -23,6 +23,8 @@ const MovieModel: ModelDefinition<Partial<Movie>> = Model.extend({
 const CastModel: ModelDefinition<Partial<Cast>> = Model.extend({
   movie: hasMany('recommendation')
 })
+
+const BookingModel: ModelDefinition<Partial<Booking>> = Model.extend({})
 
 export const makeServer = () => {
   window.server = createServer({
@@ -76,6 +78,12 @@ export const makeServer = () => {
       this.get('/movies/:id', (schema, request) => {
         let id = request.params.id
         return schema.db.recommendations.find(id)
+      })
+
+      this.post('/create-bookings', (schema, request) => {
+        let attrs = JSON.parse(request.requestBody)
+        schema.db.bookings.insert(attrs)
+        return new Response(201, {}, {})
       })
 
       this.passthrough()

@@ -1,23 +1,22 @@
-import { NativeStackHeaderProps } from '@react-navigation/native-stack'
+import { HeaderBackButtonProps } from '@react-navigation/elements'
+import { useRouter } from 'expo-router'
 import { Image, Pressable, useColorScheme } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export const customHeaderBackButton = (scheme?: 'dark' | 'light') => {
-  return (props: NativeStackHeaderProps) => {
-    const insets = useSafeAreaInsets()
+  return (props: HeaderBackButtonProps) => {
     const globalScheme = useColorScheme()
+    const router = useRouter()
     const _scheme = scheme || globalScheme
     return (
       <Pressable
         style={{
-          position: 'absolute',
           zIndex: 10,
-          top: insets.top,
-          left: insets.left + 20,
           width: 32,
           height: 32
         }}
-        onPress={() => props.navigation.goBack()}
+        onPress={() => {
+          router.back()
+        }}
       >
         <Image
           style={{

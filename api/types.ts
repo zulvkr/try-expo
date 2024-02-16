@@ -53,3 +53,17 @@ export interface Ticket {
   price: number
   booked: boolean
 }
+
+export interface Booking {
+  id: number
+  movieId: number
+  cinemaId: number
+  date: string
+  startEndTimes: string
+  hall: string
+  row: string
+  seat: string
+  price: number
+  serviceFee: number
+  total: number
+}

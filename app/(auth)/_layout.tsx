@@ -1,3 +1,4 @@
+import HeaderBackButton from '@/components/HeaderBackButton'
 import { useTheme } from '@react-navigation/native'
 import { Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
@@ -12,7 +13,9 @@ export default function Layout() {
       <Stack
         initialRouteName='login'
         screenOptions={{
-          headerShadowVisible: false
+          headerShadowVisible: false,
+          headerLeft: HeaderBackButton,
+          headerBackVisible: false
         }}
       >
         <Stack.Screen

@@ -2,9 +2,7 @@ import { Redirect, Stack } from 'expo-router'
 
 import { authStore } from '@/stores/authStore'
 import { observer } from 'mobx-react-lite'
-import HeaderBackButton, {
-  customHeaderBackButton
-} from '@/components/HeaderBackButton'
+import { customHeaderBackButton } from '@/components/HeaderBackButton'
 
 function RootLayout() {
   if (!authStore.isAuth) {
@@ -24,12 +22,18 @@ function RootLayoutNav() {
       <Stack.Screen
         name='movies/[movieId]'
         options={{
-          headerShown: true,
+          headerBackVisible: false,
+          headerLeft: customHeaderBackButton('dark'),
           headerTitle: '',
           headerBackTitleVisible: false,
           headerBackTitle: 'Back',
-          headerTransparent: true,
-          header: customHeaderBackButton('dark')
+          headerTransparent: true
+        }}
+      />
+      <Stack.Screen
+        name='booking'
+        options={{
+          headerShown: false
         }}
       />
     </Stack>
