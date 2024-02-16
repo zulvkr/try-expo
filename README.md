@@ -4,7 +4,7 @@
 
 - [x] Dark Mode
 - [x] Get Started Screen
-- [x] Sign In Screen (please use default value to login. logout button is in from profile tab)
+- [x] Sign In Screen (please use default value to login. **Logout button** is in Profile tab)
 - [x] Login Success Modal
 - [ ] Register Screen
 - [ ] Onboarding Screen
