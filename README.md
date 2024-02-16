@@ -1,8 +1,16 @@
 # Project Name
 
-## Description
+## Implementation
 
-This project is an Expo application that serves as a template for building React Native applications. It includes the integration of Mirage JS for mocking API responses, React Query with Axios for data fetching and management, and React Hook Form for form handling.
+- [x] Dark Mode
+- [x] Get Started Screen
+- [x] Sign In Screen
+- [x] Login Success Modal
+- [ ] Register Screen
+- [ ] Onboarding Screen
+- [x] Home Screen
+- [x] Movie Details Screen (Clicking on a movie in Recommendations)
+- [ ] Booking flow (on progress 🚀)
 
 ## Installation
 
@@ -44,14 +52,7 @@ This will start the development server and open the Expo DevTools in your defaul
 
 ## Stacks Used
 
-### 1. Expo
-
-Framework and routing
-
-### 2. Mirage JS
-
-Mocking API responses
-
-### 3. React Query + Axios
-
-### 4. React Hook Form
+1. **Expo**: The framework in general and file based routing.
+2. **Mirage JS**: Mocking API responses.
+3. **React Query + Axios**: Data fetching and management.
+4. **React Hook Form**: Form handling.
