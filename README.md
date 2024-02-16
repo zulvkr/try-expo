@@ -61,3 +61,4 @@ You might need to install Expo Go on real device
 2. **Mirage JS**: Mocking API responses.
 3. **React Query + Axios**: Data fetching and management.
 4. **React Hook Form**: Form handling.
+5. **MobX**: Holding global (auth) state, but mostly for curiousity
