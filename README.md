@@ -1,16 +1,19 @@
-# Project Name
+# Iqlix
 
 ## Implementation
 
 - [x] Dark Mode
 - [x] Get Started Screen
-- [x] Sign In Screen
+- [x] Sign In Screen (please use default value to login)
 - [x] Login Success Modal
 - [ ] Register Screen
 - [ ] Onboarding Screen
 - [x] Home Screen
 - [x] Movie Details Screen (Clicking on a movie in Recommendations)
 - [ ] Booking flow (on progress 🚀)
+- [x] Tested on iOS simulator and Android
+
+![Group 12](https://github.com/zulvkr/try-expo/assets/25371085/f3eff6c5-4074-427c-98fa-0b9b688b764a)
 
 ## Installation
 
@@ -49,6 +52,8 @@ npx expo start
 ```
 
 This will start the development server and open the Expo DevTools in your default web browser. From there, you can launch the app on an emulator/simulator or scan the QR code using the Expo Go app on your mobile device to run it on a physical device.
+
+You might need to install Expo Go on real device
 
 ## Stacks Used
 
