@@ -94,7 +94,14 @@ export const RecommendationsSection = () => {
                 }}
                 asChild
               >
-                <Button variant='outlined'>Book</Button>
+                <Button
+                  style={{
+                    paddingVertical: 8
+                  }}
+                  variant='outlined'
+                >
+                  Book
+                </Button>
               </Link>
             </TouchableOpacity>
           )}
