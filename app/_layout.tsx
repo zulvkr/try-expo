@@ -10,6 +10,7 @@ import { useColorScheme } from 'react-native'
 import { DarkTheme, LightTheme } from '@/constants/Theme'
 import { makeServer } from '@/mockserver/server'
 import QueryClientProvider from '@/providers/reactquery'
+import ReduxProvider from '@/providers/redux'
 
 if (window.server) {
   server.shutdown()
@@ -57,12 +58,14 @@ export default function Root() {
     <SafeAreaProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : LightTheme}>
         <QueryClientProvider>
-          <Stack
-            screenOptions={{
-              headerShown: false
-            }}
-          />
-          <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+          <ReduxProvider>
+            <Stack
+              screenOptions={{
+                headerShown: false
+              }}
+            />
+            <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+          </ReduxProvider>
         </QueryClientProvider>
       </ThemeProvider>
     </SafeAreaProvider>

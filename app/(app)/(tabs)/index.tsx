@@ -10,8 +10,8 @@ import { authStore } from '@/stores/authStore'
 import { observer } from 'mobx-react-lite'
 import { MaterialIcons } from '@expo/vector-icons'
 import { IconButton } from '@/components/Button'
-import { RecommendationsSection } from '@/route-specific/home'
-import { UpcomingSection } from '@/route-specific/home/components/UpcomingSection'
+import { RecommendationsSection } from '@/features/home'
+import { UpcomingSection } from '@/features/home/components/UpcomingSection'
 
 export default observer(function TabOneScreen() {
   const dimensions = useWindowDimensions()
