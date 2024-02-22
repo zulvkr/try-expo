@@ -1,11 +1,6 @@
-import { createSlice, PayloadAction, createSelector } from '@reduxjs/toolkit'
-
-interface User {
-  id: string
-  name: string
-  email: string
-  avatar: string
-}
+import { User } from '@/api/types'
+import { RootState } from '@/stores/redux'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface AuthState {
   user?: User
@@ -17,7 +12,7 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<User>) => {
+    setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload
     },
     logout: state => {
@@ -26,11 +21,8 @@ export const authSlice = createSlice({
   }
 })
 
-export const isLoggedIn = createSelector(
-  [(state: AuthState) => state.user],
-  user => !!user
-)
+export const isLoggedInSelector = (state: RootState) => !!state.auth.user
 
-export const { login, logout } = authSlice.actions
+export const { logout, setUser } = authSlice.actions
 
 export default authSlice.reducer

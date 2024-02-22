@@ -1,7 +1,5 @@
 import { Text, View, useThemeColor } from '@/components/Themed'
 import { router, useLocalSearchParams } from 'expo-router'
-import { useQuery } from '@tanstack/react-query'
-import { getMovie } from '@/api/api'
 import {
   ActivityIndicator,
   FlatList,
@@ -22,14 +20,12 @@ import CommonStyles from '@/components/CommonStyles'
 import { Cast } from '@/api/types'
 import { SecondaryText } from '@/components/StyledText'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useGetMovieQuery } from '@/features/api/apiSlice'
 
 export default function MovieDetail() {
   const { movieId } = useLocalSearchParams()
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['movie', movieId],
-    queryFn: ({ queryKey: [_, movieId] }) => getMovie(movieId as string)
-  })
+  const { data, isLoading } = useGetMovieQuery(movieId as string)
 
   const textSecondaryColor = useThemeColor({}, 'textSecondary')
   const textColor = useThemeColor({}, 'text')

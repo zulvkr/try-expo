@@ -4,10 +4,8 @@ import { SuccessModal } from '@/components/Modal'
 import { TextInput } from '@/components/TextInput'
 import { Text, View, useThemeColor } from '@/components/Themed'
 import Colors from '@/constants/Colors'
-import { authStore } from '@/stores/authStore'
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import { Link, useRouter } from 'expo-router'
-import { observer } from 'mobx-react-lite'
 import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import {
@@ -17,10 +15,13 @@ import {
   ScrollView,
   StyleSheet
 } from 'react-native'
-import { action } from 'mobx'
 import { SecondaryText } from '@/components/StyledText'
+import { useAppSelector } from '@/stores/redux'
+import { isLoggedInSelector } from '@/features/auth/stores/authSlice'
+import { usePostLoginMutation } from '@/features/api/apiSlice'
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
-export default observer(function LoginScreen() {
+export default function LoginScreen() {
   const googleBackgroundColor = useThemeColor(
     {
       dark: Colors.dark.textInputBackground
@@ -33,6 +34,8 @@ export default observer(function LoginScreen() {
   const [loginSuccessModalVisible, setLoginSuccessModalVisible] =
     useState(false)
   const router = useRouter()
+  const isLoggedIn = useAppSelector(isLoggedInSelector)
+  const [login, { isError, error }] = usePostLoginMutation()
 
   const {
     control,
@@ -45,20 +48,17 @@ export default observer(function LoginScreen() {
     }
   })
 
-  const onSubmit = action(async (data: any) => {
-    await authStore.login({
-      email: data.email,
-      password: data.password
-    })
-  })
+  const onSubmit = async (data: any) => {
+    await login(data)
+  }
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
   useEffect(() => {
-    if (authStore.loginRequestStatus === 'done' && authStore.isAuth) {
+    if (isLoggedIn) {
       setLoginSuccessModalVisible(true)
     }
-  }, [authStore.loginRequestStatus, authStore.isAuth])
+  }, [isLoggedIn])
 
   return (
     <>
@@ -117,9 +117,11 @@ export default observer(function LoginScreen() {
           <OrSeparator />
 
           <View>
-            {authStore.loginErrorMessage && (
+            {isError && (
               <Text style={[styles.rootErrorText, { color: errorColor }]}>
-                {authStore.loginErrorMessage}
+                {(error as FetchBaseQueryError).status
+                  ? 'Invalid email or password'
+                  : 'An error occurred'}
               </Text>
             )}
             <Controller
@@ -242,7 +244,7 @@ export default observer(function LoginScreen() {
       </SuccessModal>
     </>
   )
-})
+}
 
 const styles = StyleSheet.create({
   scrollviewContainer: {

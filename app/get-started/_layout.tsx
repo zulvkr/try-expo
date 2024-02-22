@@ -1,11 +1,13 @@
-import { authStore } from '@/stores/authStore'
+import { isLoggedInSelector } from '@/features/auth/stores/authSlice'
+import { useAppSelector } from '@/stores/redux'
 import { Redirect } from 'expo-router'
 import { Stack } from 'expo-router/stack'
 import { StatusBar } from 'expo-status-bar'
-import { observer } from 'mobx-react-lite'
 
-export default observer(function Layout() {
-  if (authStore.isAuth) {
+export default function Layout() {
+  const isLoggedIn = useAppSelector(state => isLoggedInSelector(state))
+
+  if (isLoggedIn) {
     return <Redirect href='/' />
   }
   return (
@@ -18,4 +20,4 @@ export default observer(function Layout() {
       <StatusBar style='light' />
     </>
   )
-})
+}

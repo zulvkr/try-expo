@@ -9,13 +9,12 @@ import {
 } from 'react-native'
 import { Text, View, useThemeColor } from '@/components/Themed'
 import { Link } from 'expo-router'
-import { useQuery } from '@tanstack/react-query'
-import { getUpcomings } from '@/api/api'
 import { MaterialIcons } from '@expo/vector-icons'
 import Colors from '@/constants/Colors'
 import { useState } from 'react'
 import CommonStyles from '@/components/CommonStyles'
 import { SecondaryText } from '@/components/StyledText'
+import { useGetUpcomingsQuery } from '@/features/api/apiSlice'
 
 export const UpcomingSection = () => {
   const dimensions = useWindowDimensions()
@@ -24,10 +23,7 @@ export const UpcomingSection = () => {
   const cardRatio = 7 / 10
   const cardHeight = cardWidth / cardRatio
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['upcomings'],
-    queryFn: getUpcomings
-  })
+  const { data, isLoading } = useGetUpcomingsQuery(null)
 
   const textColor = useThemeColor({}, 'text')
   const tintColor = useThemeColor({}, 'tint')

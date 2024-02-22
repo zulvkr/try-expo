@@ -9,11 +9,10 @@ import {
 } from 'react-native'
 import { Text, View, useThemeColor } from '@/components/Themed'
 import { Link, useRouter } from 'expo-router'
-import { useQuery } from '@tanstack/react-query'
-import { getRecommendations } from '@/api/api'
 import { Button } from '@/components/Button'
 import { SecondaryText } from '@/components/StyledText'
 import CommonStyles from '@/components/CommonStyles'
+import { useGetRecommendationsQuery } from '@/features/api/apiSlice'
 
 export const RecommendationsSection = () => {
   const dimensions = useWindowDimensions()
@@ -23,10 +22,7 @@ export const RecommendationsSection = () => {
   const cardHeight = cardWidth / cardRatio
   const router = useRouter()
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['recommendations'],
-    queryFn: getRecommendations
-  })
+  const { data, isLoading } = useGetRecommendationsQuery(null)
 
   const textColor = useThemeColor({}, 'text')
   const tintColor = useThemeColor({}, 'tint')

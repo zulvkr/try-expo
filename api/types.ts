@@ -10,7 +10,7 @@ export interface LoginRequest {
   password: string
 }
 
-export interface AuthResponse {
+export interface LoginResponse {
   token: string
   user: User
 }

@@ -1,18 +1,20 @@
 import { Redirect, Stack } from 'expo-router'
 
-import { authStore } from '@/stores/authStore'
-import { observer } from 'mobx-react-lite'
 import { customHeaderBackButton } from '@/components/HeaderBackButton'
+import { isLoggedInSelector } from '@/features/auth/stores/authSlice'
+import { useAppSelector } from '@/stores/redux'
 
 function RootLayout() {
-  if (!authStore.isAuth) {
+  const isLoggedIn = useAppSelector(isLoggedInSelector)
+
+  if (!isLoggedIn) {
     return <Redirect href='/get-started/' />
   }
 
   return <RootLayoutNav />
 }
 
-export default observer(RootLayout)
+export default RootLayout
 
 function RootLayoutNav() {
   return (

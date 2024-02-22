@@ -6,30 +6,30 @@ import {
 } from 'react-native'
 
 import { Text, View } from '@/components/Themed'
-import { authStore } from '@/stores/authStore'
-import { observer } from 'mobx-react-lite'
 import { MaterialIcons } from '@expo/vector-icons'
 import { IconButton } from '@/components/Button'
 import { RecommendationsSection } from '@/features/home'
 import { UpcomingSection } from '@/features/home/components/UpcomingSection'
+import { useAppSelector } from '@/stores/redux'
 
-export default observer(function TabOneScreen() {
+export default function TabOneScreen() {
   const dimensions = useWindowDimensions()
   const heroWidth = dimensions.width - 40
   const heroRatio = 1.8
   const heroHeight = heroWidth / heroRatio
+  const user = useAppSelector(state => state.auth.user)
 
   return (
     <ScrollView contentContainerStyle={styles.root.container}>
       <View style={styles.sections.userInfo.container}>
         <View style={styles.sections.userInfo.userInfoContainer}>
           <Image
-            source={{ uri: authStore.user?.avatar }}
+            source={{ uri: user?.avatar }}
             style={styles.sections.userInfo.avatar}
           />
           <View style={styles.sections.userInfo.userInfo}>
             <Text style={styles.sections.userInfo.userInfoGreetings}>
-              Hi, {authStore.user?.name?.split(' ')[0]}! 👋
+              Hi, {user?.name?.split(' ')[0]}! 👋
             </Text>
             <Text style={styles.sections.userInfo.userInfoGreetingsSub}>
               Good to see you again!
@@ -57,7 +57,7 @@ export default observer(function TabOneScreen() {
       <UpcomingSection />
     </ScrollView>
   )
-})
+}
 
 const stylesRoot = StyleSheet.create({
   container: {
